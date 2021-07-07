@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import 'bootstrap';
+import 'bootstrap'; // ES module Side Effect
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import VueSweetalert2 from 'vue-sweetalert2';

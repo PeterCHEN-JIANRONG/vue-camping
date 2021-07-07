@@ -180,6 +180,8 @@
   <Loading :active="isLoading"></Loading>
 </template>
 <script>
+import emitter from '../methods/eventBus';
+
 export default {
   data() {
     return {
@@ -255,6 +257,7 @@ export default {
           this.$httpMessageState(res, res.data.message);
           if (res.data.success) {
             this.getCart();
+            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
           }
         })
         .catch((error) => {
@@ -271,6 +274,7 @@ export default {
           this.$httpMessageState(res, res.data.message);
           if (res.data.success) {
             this.getCart();
+            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
           }
         })
         .catch((error) => {
@@ -287,6 +291,7 @@ export default {
           this.isLoading = false;
           this.$httpMessageState(res, '建立訂單');
           if (res.data.success) {
+            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
             this.$router.push(`/checkout/${res.data.orderId}`);
             // 清空表單資料
             this.$refs.form.resetForm();

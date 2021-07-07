@@ -35,6 +35,8 @@
   <Loading :active="isLoading"></Loading>
 </template>
 <script>
+import emitter from '../methods/eventBus';
+
 export default {
   props: ['id'],
   data() {
@@ -75,10 +77,11 @@ export default {
       this.$http
         .post(url, { data })
         .then((res) => {
-          this.$httpMessageState(res, res.data.message);
           this.isLoading = false;
+          this.$httpMessageState(res, res.data.message);
           if (res.data.success) {
             this.qty = 1;
+            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
             // this.$router.push('/products');
           }
         })

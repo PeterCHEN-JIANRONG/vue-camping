@@ -67,6 +67,7 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination.vue';
+import emitter from '../methods/eventBus';
 
 export default {
   data() {
@@ -116,10 +117,11 @@ export default {
       this.$http
         .post(url, { data })
         .then((res) => {
+          this.isLoading = false;
+          this.loadingStatus.loadingItem = '';
           this.$httpMessageState(res, res.data.message);
           if (res.data.success) {
-            this.isLoading = false;
-            this.loadingStatus.loadingItem = '';
+            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
           }
         })
         .catch((error) => {
