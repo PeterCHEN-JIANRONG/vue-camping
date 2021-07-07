@@ -17,9 +17,9 @@
 ##### assets
 
 - stylesheets
-  -- components 元件的 scss
-  -- helpers 自訂變數 scss
-  -- all.scss 做 scss 總管
+  - components 元件的 scss
+  - helpers 自訂變數 scss
+  - all.scss 做 scss 總管
 
 ## Project setup
 
