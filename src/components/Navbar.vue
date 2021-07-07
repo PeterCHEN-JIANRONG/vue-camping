@@ -1,9 +1,20 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <router-link class="navbar-brand" to="/index">導覽列</router-link>
-      <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary pt-3 pb-3">
+    <div class="container">
+      <router-link class="navbar-brand ff-Otomanopee fs-3" to="/index">CAMPING</router-link>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto fs-4 text-center">
           <li class="nav-item">
             <router-link class="nav-link" to="/index">首頁</router-link>
           </li>
