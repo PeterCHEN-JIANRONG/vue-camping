@@ -1,7 +1,7 @@
 <template>
   <!-- vue-loading -->
   <Loading :active="isLoading"></Loading>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary pt-3 pb-3">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-3 fixed-top">
     <div class="container">
       <router-link class="navbar-brand ff-Otomanopee fs-3" to="/index">CAMPING</router-link>
       <button
@@ -27,15 +27,17 @@
             <router-link class="nav-link px-3" to="/products">產品</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link px-3 position-relative" to="/carts">
-              <i class="bi bi-cart-fill"></i>
-              <span
-                v-if="cart.carts.length > 0"
-                class="rounded-pill bg-danger text-white text-decoration-none px-2
+            <router-link class="nav-link px-3" to="/carts">
+              <div class="d-inline position-relative">
+                <i class="bi bi-cart-fill"></i>
+                <span
+                  v-if="cart.carts.length > 0"
+                  class="rounded-pill bg-danger text-white text-decoration-none px-2
               fs-6 position-absolute number-position"
-              >
-                {{ cart.carts.length }}
-              </span>
+                >
+                  {{ cart.carts.length }}
+                </span>
+              </div>
             </router-link>
           </li>
           <li class="nav-item">
@@ -94,7 +96,7 @@ export default {
 
 <style lang="css">
 .number-position {
-  top: 2px;
-  right: -1px;
+  top: -8px;
+  right: -16px;
 }
 </style>
