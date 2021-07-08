@@ -1,7 +1,7 @@
 <template>
   <!-- vue-loading -->
   <Loading :active="isLoading"></Loading>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-3 fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top" :class="classList.navbar">
     <div class="container">
       <router-link class="navbar-brand ff-Otomanopee fs-3" to="/index">CAMPING</router-link>
       <button
@@ -62,6 +62,9 @@ export default {
         carts: [],
       },
       isLoading: false,
+      classList: {
+        navbar: 'py-3',
+      },
     };
   },
   methods: {
@@ -90,13 +93,35 @@ export default {
     emitter.on('update-cartNum', () => {
       this.getCart();
     });
+
+    // 加入捲動特效
+    window.addEventListener('scroll', () => {
+      const windowY = window.scrollY;
+
+      const main = document.querySelector('#main');
+      if (main) {
+        if (windowY > main.offsetTop) {
+          this.classList = {
+            navbar: 'py-0',
+          };
+        } else {
+          this.classList = {
+            navbar: 'py-3',
+          };
+        }
+      }
+    });
   },
 };
 </script>
 
-<style lang="css">
+<style scoped>
 .number-position {
   top: -8px;
   right: -16px;
+}
+
+.navbar {
+  transition: 0.5s;
 }
 </style>
