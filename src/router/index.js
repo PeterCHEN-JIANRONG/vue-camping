@@ -6,7 +6,7 @@ const routes = [
     component: () => import('../views/Front.vue'),
     children: [
       {
-        path: 'index',
+        path: '',
         name: '首頁',
         component: () => import('../views/Index.vue'),
       },
@@ -84,7 +84,7 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: '404頁',
-    component: import('../views/NotFound.vue'),
+    component: () => import('../views/NotFound.vue'),
   },
 ];
 

@@ -3,7 +3,7 @@
   <Loading :active="isLoading"></Loading>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top" :class="classList.navbar">
     <div class="container">
-      <router-link class="navbar-brand ff-Otomanopee fs-3" to="/index">CAMPING</router-link>
+      <router-link class="navbar-brand ff-Otomanopee fs-3" to="/">CAMPING</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto fs-4 text-center">
           <li class="nav-item">
-            <router-link class="nav-link px-3" to="/index">首頁</router-link>
+            <router-link class="nav-link px-3" to="/">首頁</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link px-3" to="/about">關於</router-link>

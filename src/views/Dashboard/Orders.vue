@@ -135,6 +135,7 @@ export default {
     },
     openDelOrderModal(item) {
       this.tempOrder = { ...item };
+      this.tempOrder.title = `${this.tempOrder.user.email} - ${this.tempOrder.total} 元`;
       this.$refs.delModal.openModal();
     },
   },

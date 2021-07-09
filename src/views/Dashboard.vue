@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <router-link class="navbar-brand" to="/admin/products">導覽列</router-link>
+      <router-link class="navbar-brand" to="/admin/products">CAMPING</router-link>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -19,10 +19,10 @@
         </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <router-link class="nav-link" to="/index">前台</router-link>
+            <router-link class="nav-link" to="/">前台</router-link>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="signOut">登出</a>
+            <a href="#" class="nav-link" @click.prevent="logout">登出</a>
           </li>
         </ul>
       </div>
@@ -69,10 +69,15 @@ export default {
         this.$router.push('/login');
       }
     },
-    signOut() {
-      document.cookie = 'hexToken=;expires=;';
-      this.successAlert('token 已清除');
-      this.$router.push('/login');
+    logout() {
+      const url = `${process.env.VUE_APP_API}/logout`;
+      this.$http.post(url).then((res) => {
+        this.successAlert(res.data.message);
+        if (res.data.success) {
+          document.cookie = 'hexToken=;expires=;';
+          this.$router.push('/login');
+        }
+      });
     },
     successAlert(msg) {
       this.$swal.fire({
