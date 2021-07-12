@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>產品列表</h1>
+    <span class="h3">搜尋：</span><input type="text" v-model="searchKey" />
     <div class="row mt-4">
       <div class="col-3">
         <div class="list-group">
@@ -96,6 +97,7 @@ export default {
       },
       categories: [],
       selectCategory: '',
+      searchKey: '',
     };
   },
   methods: {
@@ -153,9 +155,18 @@ export default {
   computed: {
     filterProducts() {
       if (this.selectCategory === '') {
-        return this.products;
+        return this.products.filter((item) => item.title
+          .trim()
+          .toLowerCase()
+          .match(this.searchKey.trim().toLowerCase()));
       }
-      return this.products.filter((item) => item.category === this.selectCategory);
+      return this.products.filter(
+        (item) => item.category === this.selectCategory
+          && item.title
+            .trim()
+            .toLowerCase()
+            .match(this.searchKey.trim().toLowerCase()),
+      );
     },
   },
   created() {
