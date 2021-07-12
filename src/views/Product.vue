@@ -29,6 +29,13 @@
       </div>
       <!-- col-sm-6 end -->
     </div>
+
+    <h2>相似產品</h2>
+    <ul>
+      <li v-for="item in similarProducts" :key="item.id">
+        <h4>{{ item.title }}</h4>
+      </li>
+    </ul>
   </div>
 
   <!-- vue-loading -->
@@ -36,6 +43,11 @@
 </template>
 <script>
 import emitter from '../methods/eventBus';
+
+// 取亂數
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
 
 export default {
   props: ['id'],
@@ -47,6 +59,8 @@ export default {
       },
       qty: 1,
       isLoading: false,
+      products: [],
+      similarProducts: [],
     };
   },
   methods: {
@@ -56,12 +70,13 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
+          this.isLoading = false;
           if (res.data.success) {
             this.product = res.data.product;
+            this.getProductsAll();
           } else {
             this.$httpMessageState(res, res.data.message);
           }
-          this.isLoading = false;
         })
         .catch((error) => {
           console.dir(error);
@@ -88,6 +103,44 @@ export default {
         .catch((error) => {
           console.dir(error);
         });
+    },
+    getProductsAll() {
+      this.isLoading = true;
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
+      this.$http
+        .get(url)
+        .then((res) => {
+          this.isLoading = false;
+          if (res.data.success) {
+            this.products = res.data.products;
+            this.getSimilarProducts();
+          } else {
+            this.$httpMessageState(res, res.data.message);
+          }
+        })
+        .catch((error) => {
+          console.dir(error);
+        });
+    },
+    getSimilarProducts() {
+      // 取得相似產品
+      const { category, id } = this.product;
+      // 過濾 相同類別 且 id不重複
+      const filterProducts = this.products.filter(
+        (item) => item.category === category && item.id !== id,
+      );
+      const randomArr = new Set([]);
+      const maxSize = filterProducts.length < 4 ? filterProducts.length : 4;
+
+      // 取得不重複亂數
+      for (let index = 0; randomArr.size < maxSize; index + 1) {
+        const randomNum = getRandomInt(filterProducts.length);
+        randomArr.add(randomNum);
+      }
+
+      randomArr.forEach((item) => {
+        this.similarProducts.push(filterProducts[item]);
+      });
     },
   },
   created() {
