@@ -63,6 +63,10 @@
                   >
                     查看更多
                   </button>
+                  <button type="button" class="btn btn-outline-danger" @click="addMyFavorite(item)">
+                    <i v-if="myFavorite.includes(item.id)" class="bi bi-heart-fill"></i>
+                    <i v-else class="bi bi-heart"></i>
+                  </button>
                   <button
                     type="button"
                     class="btn btn-outline-danger"
@@ -86,6 +90,17 @@
 <script>
 import emitter from '../methods/eventBus';
 
+// localStorage 我的最愛
+const localStorageMethods = {
+  save(item) {
+    const favoriteString = JSON.stringify(item);
+    localStorage.setItem('campingFavorite', favoriteString);
+  },
+  get() {
+    return JSON.parse(localStorage.getItem('campingFavorite'));
+  },
+};
+
 export default {
   data() {
     return {
@@ -98,6 +113,7 @@ export default {
       categories: [],
       selectCategory: '',
       searchKey: '',
+      myFavorite: localStorageMethods.get() || [],
     };
   },
   methods: {
@@ -150,6 +166,15 @@ export default {
         .catch((error) => {
           console.dir(error);
         });
+    },
+    addMyFavorite(item) {
+      if (this.myFavorite.includes(item.id)) {
+        this.myFavorite.splice(this.myFavorite.indexOf(item.id), 1);
+      } else {
+        this.myFavorite.push(item.id);
+      }
+      localStorageMethods.save(this.myFavorite);
+      console.log(this.myFavorite);
     },
   },
   computed: {
