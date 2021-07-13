@@ -31,17 +31,32 @@
     </div>
 
     <h2>相似產品</h2>
-    <ul>
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <swiper class="">
+          <swiper-slide v-for="item in similarProducts" :key="item.id">
+            <img :src="item.imageUrl" alt="" />
+          </swiper-slide>
+        </swiper>
+      </div>
+    </div>
+
+    <!-- <ul class="d-flex">
       <li v-for="item in similarProducts" :key="item.id">
         <h4>{{ item.title }}</h4>
+        <img :src="item.imageUrl" style="height:300px; " alt="" />
       </li>
-    </ul>
+    </ul> -->
   </div>
 
   <!-- vue-loading -->
   <Loading :active="isLoading"></Loading>
 </template>
 <script>
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+// Import Swiper styles
+import 'swiper/swiper.scss';
 import emitter from '../methods/eventBus';
 
 // 取亂數
@@ -62,6 +77,10 @@ export default {
       products: [],
       similarProducts: [],
     };
+  },
+  components: {
+    Swiper,
+    SwiperSlide,
   },
   methods: {
     getProduct(id) {
@@ -149,3 +168,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
