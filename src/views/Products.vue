@@ -1,85 +1,111 @@
 <template>
   <div class="container">
-    <h1>產品列表</h1>
-    <span class="h3">搜尋：</span><input type="text" v-model="searchKey" />
+    <!-- 搜尋 -->
+    <div class="text-end my-3 me-4">
+      <input
+        title="請輸入搜尋關鍵字"
+        class="me-2"
+        type="text"
+        v-model="searchKey"
+        placeholder="請輸入搜尋關鍵字"
+      /><i class="bi bi-search h4" title="搜尋"></i>
+    </div>
     <div class="row mt-4">
-      <div class="col-3">
+      <div class="col-md-3 mb-4">
         <div class="list-group">
           <a
             href="#"
-            class="list-group-item list-group-item-action"
+            class="list-group-item list-group-item-action list-group-item-secondary"
+            :class="{ active: selectCategory === '' }"
             @click.prevent="selectCategory = ''"
             >全部商品</a
           >
           <a
             href="#"
+            class="list-group-item list-group-item-action list-group-item-secondary"
+            :class="{ active: selectCategory === '特價商品' }"
+            @click.prevent="selectCategory = '特價商品'"
+            >特價商品</a
+          >
+          <a
+            href="#"
+            class="list-group-item list-group-item-action list-group-item-secondary"
+            :class="{ active: selectCategory === '暢銷商品' }"
+            @click.prevent="selectCategory = '暢銷商品'"
+            >暢銷商品</a
+          >
+          <a
+            href="#"
             v-for="item in categories"
             :key="item"
-            class="list-group-item list-group-item-action"
+            class="list-group-item list-group-item-action list-group-item-secondary"
+            :class="{ active: selectCategory === item }"
             @click.prevent="selectCategory = item"
             >{{ item }}</a
           >
         </div>
       </div>
-      <div class="col-9">
+      <div class="col-md-9">
         <!-- 產品列表 -->
-        <table class="table align-middle">
-          <thead>
-            <tr>
-              <th>圖片</th>
-              <th>商品名稱</th>
-              <th>價格</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in filterProducts" :key="item.id">
-              <td style="width: 200px">
-                <div
-                  style="height: 100px; background-size: cover; background-position: center"
-                  v-if="item.imageUrl"
-                  :style="{ backgroundImage: `url(${item.imageUrl})` }"
-                ></div>
-              </td>
-              <td>
-                {{ item.title }}
-              </td>
-              <td>
-                <div class="h5" v-if="!item.price">{{ item.origin_price }} 元</div>
-                <del class="h6" v-if="item.price"
-                  >原價 {{ $filters.currency(item.origin_price) }} 元</del
+        <div class="row">
+          <div class="col-md-6 col-lg-4 mb-4" v-for="item in filterProducts" :key="item.id">
+            <div class="card" @click="pushProductPage(item)">
+              <div
+                class="card__img position-relative"
+                :style="{ backgroundImage: `url('${item.imageUrl}')` }"
+              >
+                <span
+                  v-if="item.options.sell_status"
+                  class="bg-danger text-white d-inline-block px-2 py-1"
+                  >{{ item.options.sell_status }}</span
                 >
-                <div class="h5" v-if="item.price">
-                  現在只要 {{ $filters.currency(item.price) }} 元
+              </div>
+              <div class="card-body d-flex flex-column justify-content-center">
+                <h2 class="card-title h5">{{ item.title }}</h2>
+                <div class="h5 text-center py-1" v-if="item.price">
+                  <span
+                    v-if="item.price != item.origin_price"
+                    class="h6 text-decoration-line-through"
+                  >
+                    ${{ $filters.currency(item.origin_price) }}
+                  </span>
+                  <span v-if="item.price != item.origin_price" class="h4 text-danger fw-bold">
+                    ${{ $filters.currency(item.price) }}
+                  </span>
+                  <span v-if="item.price == item.origin_price" class="h4 fw-bold">
+                    ${{ $filters.currency(item.price) }}
+                  </span>
                 </div>
-              </td>
-              <td>
                 <div class="btn-group btn-group-sm">
-                  <button
+                  <!-- <button
                     type="button"
                     class="btn btn-outline-secondary"
-                    @click="pushProductPage(item)"
+                    @click.stop="pushProductPage(item)"
                     :disabled="loadingStatus.loadingItem === item.id || !item.is_enabled"
                   >
                     查看更多
-                  </button>
-                  <button type="button" class="btn btn-outline-danger" @click="addMyFavorite(item)">
+                  </button> -->
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn__favorite"
+                    @click.stop="addMyFavorite(item)"
+                  >
                     <i v-if="myFavorite.includes(item.id)" class="bi bi-heart-fill"></i>
                     <i v-else class="bi bi-heart"></i>
                   </button>
                   <button
                     type="button"
-                    class="btn btn-outline-danger"
-                    @click="addCart(item.id)"
+                    class="btn btn-outline-primary"
+                    @click.stop="addCart(item.id)"
                     :disabled="loadingStatus.loadingItem === item.id || !item.is_enabled"
                   >
                     加到購物車
                   </button>
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -184,6 +210,24 @@ export default {
           .toLowerCase()
           .match(this.searchKey.trim().toLowerCase()));
       }
+      if (this.selectCategory === '特價商品') {
+        return this.products.filter(
+          (item) => item.price !== item.origin_price
+            && item.title
+              .trim()
+              .toLowerCase()
+              .match(this.searchKey.trim().toLowerCase()),
+        );
+      }
+      if (this.selectCategory === '暢銷商品') {
+        return this.products.filter(
+          (item) => item.options.sell_status !== ''
+            && item.title
+              .trim()
+              .toLowerCase()
+              .match(this.searchKey.trim().toLowerCase()),
+        );
+      }
       return this.products.filter(
         (item) => item.category === this.selectCategory
           && item.title
@@ -198,3 +242,27 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.card {
+  &:hover {
+    box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
+  }
+  .card-title {
+    max-width: 100%;
+  }
+  .card__img {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    &:hover {
+      background-size: 150%;
+    }
+  }
+
+  .btn__favorite {
+    max-width: 50px;
+  }
+}
+</style>
