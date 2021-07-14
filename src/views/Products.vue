@@ -174,7 +174,6 @@ export default {
         this.myFavorite.push(item.id);
       }
       localStorageMethods.save(this.myFavorite);
-      console.log(this.myFavorite);
     },
   },
   computed: {
