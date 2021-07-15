@@ -1,18 +1,31 @@
 <template>
+  <div class="banner"></div>
   <div class="container">
-    <!-- 搜尋 -->
-    <div class="text-end my-3 me-4">
-      <input
-        title="請輸入搜尋關鍵字"
-        class="me-2"
-        type="text"
-        v-model="searchKey"
-        placeholder="請輸入搜尋關鍵字"
-      /><i class="bi bi-search h4" title="搜尋"></i>
+    <div class="d-flex justify-content-between align-items-center my-3 h6">
+      <!-- 麵包屑 -->
+      <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><router-link to="/">首頁</router-link></li>
+          <li class="breadcrumb-item"><router-link to="/products">產品</router-link></li>
+          <li class="breadcrumb-item active" aria-current="page">
+            {{ selectCategory ? selectCategory : '全部商品' }}
+          </li>
+        </ol>
+      </nav>
+      <!-- 搜尋 -->
+      <div class="search">
+        <input
+          title="請輸入搜尋關鍵字"
+          class="me-2"
+          type="text"
+          v-model="searchKey"
+          placeholder="請輸入搜尋關鍵字"
+        /><i class="bi bi-search h4" title="搜尋"></i>
+      </div>
     </div>
     <div class="row mt-4">
       <div class="col-md-3 mb-4">
-        <div class="list-group">
+        <div class="list-group" id="main">
           <a
             href="#"
             class="list-group-item list-group-item-action list-group-item-secondary"
@@ -244,6 +257,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.banner {
+  height: calc(30vh);
+  background-image: url(https://images.unsplash.com/photo-1560065569-fc53b0b6b94e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1951&q=80);
+  background-position: 50% 55%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .card {
   &:hover {
     box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
