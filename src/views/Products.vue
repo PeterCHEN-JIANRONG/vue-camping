@@ -252,6 +252,11 @@ export default {
   },
   created() {
     this.getProducts();
+    if (this.$route.params.selectCategory === 'all') {
+      this.selectCategory = '';
+    } else {
+      this.selectCategory = this.$route.params.selectCategory;
+    }
   },
 };
 </script>

@@ -1,7 +1,19 @@
 <template>
   <div class="container">
-    <h1>產品頁</h1>
-    <h2>{{ product.title }}</h2>
+    <div class="d-flex justify-content-between align-items-center my-3 h6">
+      <!-- 麵包屑 -->
+      <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><router-link to="/">首頁</router-link></li>
+          <li class="breadcrumb-item"><router-link to="/products/all">產品</router-link></li>
+          <li class="breadcrumb-item">
+            <router-link :to="`/products/${product.category}`">{{ product.category }}</router-link>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+        </ol>
+      </nav>
+    </div>
+    <h1 class="">{{ product.title }}</h1>
     <div class="row">
       <div class="col-sm-6">
         <img class="img-fluid mb-4" :src="product.imageUrl" alt="" />

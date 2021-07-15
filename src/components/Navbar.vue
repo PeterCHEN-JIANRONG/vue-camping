@@ -24,7 +24,7 @@
             <router-link class="nav-link px-3" to="/about">關於</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link px-3" to="/products">產品</router-link>
+            <router-link class="nav-link px-3" to="/products/all">產品</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link px-3" to="/carts">
