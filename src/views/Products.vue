@@ -6,7 +6,9 @@
       <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item"><router-link to="/">首頁</router-link></li>
-          <li class="breadcrumb-item"><router-link to="/products">產品</router-link></li>
+          <li class="breadcrumb-item">
+            <router-link to="/products/all" @click.prevent="selectCategory = ''">產品</router-link>
+          </li>
           <li class="breadcrumb-item active" aria-current="page">
             {{ selectCategory ? selectCategory : '全部商品' }}
           </li>

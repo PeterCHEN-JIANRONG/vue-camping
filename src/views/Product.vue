@@ -85,13 +85,13 @@
     <div class="row">
       <div class="col product__description">
         <h2 class="h3 border-start border-3 border-secondary ps-2 mb-2">商品描述</h2>
-        <p class="mb-4">{{ product.description }}</p>
+        <p class="mb-4 text-muted">{{ product.description }}</p>
         <h2 class="h3 border-start border-3 border-secondary ps-2 mb-2">商品內容</h2>
-        <p>{{ product.content }}</p>
+        <p class="text-muted">{{ product.content }}</p>
       </div>
     </div>
     <hr />
-    <h2 class="mb-3">相似產品</h2>
+    <h2 class="mb-3">相關商品</h2>
     <div class="row mb-5">
       <div class="col-md-6 col-lg-4 mb-4" v-for="item in similarProducts" :key="item.id">
         <div class="card" @click="pushProductPage(item)">
@@ -236,12 +236,15 @@ export default {
         randomArr.add(randomNum);
       }
 
+      this.similarProducts = [];
       randomArr.forEach((item) => {
         this.similarProducts.push(filterProducts[item]);
       });
     },
     pushProductPage(item) {
+      this.getProduct(item.id);
       this.$router.push(`/product/${item.id}`);
+      window.scrollTo(0, 0); // 捲動至頂部
     },
   },
   created() {
