@@ -4,7 +4,7 @@
 
 # 頁面
 
-- [前台頁](https://peterchen-jianrong.github.io/vue-camping/dist/#/products)
+- [前台頁](https://peterchen-jianrong.github.io/vue-camping/dist/#/products/all)
 - [後台頁](https://peterchen-jianrong.github.io/vue-camping/dist/#/admin/products)
 
 ### 說明
