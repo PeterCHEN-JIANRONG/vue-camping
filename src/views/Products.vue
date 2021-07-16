@@ -23,7 +23,8 @@
         /><i class="bi bi-search h4" title="搜尋"></i>
       </div>
     </div>
-    <div class="row mt-4">
+    <hr class="my-3" />
+    <div class="row">
       <div class="col-md-3 mb-4">
         <div class="list-group" id="main">
           <a
@@ -88,6 +89,7 @@
                   <span v-if="item.price == item.origin_price" class="h4 fw-bold">
                     ${{ $filters.currency(item.price) }}
                   </span>
+                  元
                 </div>
                 <div class="btn-group btn-group-sm">
                   <!-- <button

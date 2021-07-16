@@ -13,62 +13,126 @@
         </ol>
       </nav>
     </div>
-    <h1 class="">{{ product.title }}</h1>
+    <hr class="my-4" />
     <div class="row">
-      <div class="col-sm-6">
-        <img class="img-fluid mb-4" :src="product.imageUrl" alt="" />
-        <img class="img-fluid mb-1" v-for="item in product.imagesUrl" :src="item" :key="item" />
-      </div>
-      <div class="col-sm-6">
-        <span class="badge bg-primary rounded-pill">{{ product.category }}</span>
-        <p>商品描述：{{ product.description }}</p>
-        <p>商品內容：{{ product.content }}</p>
-        <div class="h5" v-if="!product.price">{{ $filters.currency(product.origin_price) }} 元</div>
-        <del class="h6" v-if="product.price"
-          >原價 {{ $filters.currency(product.origin_price) }} 元</del
-        >
-        <div class="h5" v-if="product.price">
-          現在只要 {{ $filters.currency(product.price) }} 元
-        </div>
-        <div>
-          <div class="input-group">
-            <input type="number" class="form-control" v-model.number="qty" min="1" />
-            <button type="button" class="btn btn-primary" @click="addCart">
-              加入購物車
-            </button>
+      <div class="col-md-6 mb-4">
+        <!-- <img class="img-fluid mb-4" :src="product.imageUrl" alt="" /> -->
+        <div class="product__img" :style="{ backgroundImage: `url('${product.imageUrl}')` }"></div>
+        <!-- 產品次要照 -->
+        <!-- <div class="row">
+          <div class="col-3">
+            <img
+              class="img-fluid border border-secondary"
+              :src="product.imageUrl"
+              alt=""
+              @click="showImageUrl = product.imageUrl"
+            />
           </div>
+          <div class="col-3" v-for="item in product.imagesUrl" :key="item">
+            <img
+              class="img-fluid border border-secondary"
+              :src="item"
+              @click="showImageUrl = item"
+            />
+          </div>
+        </div> -->
+      </div>
+      <div class="col-md-6 product__content mb-4">
+        <h1 class="">{{ product.title }}</h1>
+        <h5 class="mb-4">
+          <span class="badge bg-secondary rounded-pill me-2">
+            <router-link
+              class="text-white text-decoration-none"
+              :to="`/products/${product.category}`"
+              >{{ product.category }}</router-link
+            >
+          </span>
+          <span v-if="product.options.sell_status" class="badge bg-danger rounded-pill">
+            <router-link class="text-white text-decoration-none" :to="`/products/暢銷商品`">{{
+              product.options.sell_status
+            }}</router-link>
+          </span>
+        </h5>
+        <div class="mb-3" v-if="product.price === product.origin_price">
+          <h2 class="h5">建議售價</h2>
+          <span class="h2"> {{ $filters.currency(product.origin_price) }} 元</span>
+        </div>
+        <div class="mb-3" v-if="product.price !== product.origin_price">
+          <h2 class="h5">建議售價</h2>
+          <span class="h2 text-decoration-line-through">
+            {{ $filters.currency(product.origin_price) }} 元
+          </span>
+        </div>
+        <div class="mb-4" v-if="product.price !== product.origin_price">
+          <h2 class="h5">限時特價</h2>
+          <span class="h1 me-2 text-danger fw-bold">{{ $filters.currency(product.price) }}</span
+          ><span class="h2">元</span>
+        </div>
+        <div class="input-group">
+          <input type="number" class="form-control text-center" v-model.number="qty" min="1" />
+          <button type="button" class="btn btn-primary btn-lg" @click="addCart(product.id, qty)">
+            加入購物車
+          </button>
         </div>
       </div>
       <!-- col-sm-6 end -->
     </div>
-
-    <h2>相似產品</h2>
-    <div class="row justify-content-center">
-      <div class="col-6">
-        <swiper class="">
-          <swiper-slide v-for="item in similarProducts" :key="item.id">
-            <img :src="item.imageUrl" alt="" />
-          </swiper-slide>
-        </swiper>
+    <div class="row">
+      <div class="col product__description">
+        <h2 class="h3 border-start border-3 border-secondary ps-2 mb-2">商品描述</h2>
+        <p class="mb-4">{{ product.description }}</p>
+        <h2 class="h3 border-start border-3 border-secondary ps-2 mb-2">商品內容</h2>
+        <p>{{ product.content }}</p>
       </div>
     </div>
-
-    <!-- <ul class="d-flex">
-      <li v-for="item in similarProducts" :key="item.id">
-        <h4>{{ item.title }}</h4>
-        <img :src="item.imageUrl" style="height:300px; " alt="" />
-      </li>
-    </ul> -->
+    <hr />
+    <h2 class="mb-3">相似產品</h2>
+    <div class="row mb-5">
+      <div class="col-md-6 col-lg-4 mb-4" v-for="item in similarProducts" :key="item.id">
+        <div class="card" @click="pushProductPage(item)">
+          <div
+            class="card__img position-relative"
+            :style="{ backgroundImage: `url('${item.imageUrl}')` }"
+          >
+            <span
+              v-if="item.options.sell_status"
+              class="bg-danger text-white d-inline-block px-2 py-1"
+              >{{ item.options.sell_status }}</span
+            >
+          </div>
+          <div class="card-body d-flex flex-column justify-content-center">
+            <h2 class="card-title h5">{{ item.title }}</h2>
+            <div class="h5 text-center py-1" v-if="item.price">
+              <span v-if="item.price != item.origin_price" class="h6 text-decoration-line-through">
+                ${{ $filters.currency(item.origin_price) }}
+              </span>
+              <span v-if="item.price != item.origin_price" class="h4 text-danger fw-bold">
+                ${{ $filters.currency(item.price) }}
+              </span>
+              <span v-if="item.price == item.origin_price" class="h4 fw-bold">
+                ${{ $filters.currency(item.price) }}
+              </span>
+              元
+            </div>
+            <div class="btn-group btn-group-sm">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                @click.stop="addCart(item.id, 1)"
+                :disabled="loadingStatus.loadingItem === item.id || !item.is_enabled"
+              >
+                加到購物車
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
   <!-- vue-loading -->
   <Loading :active="isLoading"></Loading>
 </template>
 <script>
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue';
-// Import Swiper styles
-import 'swiper/swiper.scss';
 import emitter from '../methods/eventBus';
 
 // 取亂數
@@ -83,16 +147,14 @@ export default {
       product: {
         origin_price: 0,
         price: 0,
+        options: {},
       },
       qty: 1,
       isLoading: false,
       products: [],
       similarProducts: [],
+      loadingStatus: false,
     };
-  },
-  components: {
-    Swiper,
-    SwiperSlide,
   },
   methods: {
     getProduct(id) {
@@ -113,11 +175,11 @@ export default {
           console.dir(error);
         });
     },
-    addCart() {
+    addCart(id, qty) {
       this.isLoading = true;
       const data = {
-        product_id: this.product.id,
-        qty: this.qty,
+        product_id: id,
+        qty,
       };
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
       this.$http
@@ -161,7 +223,7 @@ export default {
         (item) => item.category === category && item.id !== id,
       );
       const randomArr = new Set([]);
-      const maxSize = filterProducts.length < 4 ? filterProducts.length : 4;
+      const maxSize = filterProducts.length < 3 ? filterProducts.length : 3;
 
       // 取得不重複亂數
       for (let index = 0; randomArr.size < maxSize; index + 1) {
@@ -181,9 +243,50 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 img {
   max-width: 100%;
   height: auto;
+}
+
+.product__content {
+  p {
+    font-size: 20px;
+    line-height: 1.5;
+  }
+}
+
+.product__description {
+  p {
+    white-space: pre-line;
+    line-height: 1.5;
+  }
+}
+
+.product__img {
+  width: 100%;
+  height: 450px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.card {
+  &:hover {
+    box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
+  }
+  .card-title {
+    max-width: 100%;
+  }
+  .card__img {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .btn__favorite {
+    max-width: 50px;
+  }
 }
 </style>
