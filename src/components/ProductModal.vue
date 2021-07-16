@@ -177,9 +177,19 @@
                   />
                 </div>
               </div>
-
+              <div class="row gx-2">
+                <div class="mb-3 col-md-6">
+                  <label for="model" class="form-label">型號</label>
+                  <input
+                    id="model"
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入型號"
+                    v-model="tempProduct.options.model"
+                  />
+                </div>
+              </div>
               <hr />
-
               <div class="mb-3">
                 <label for="description" class="form-label">產品描述</label>
                 <textarea
