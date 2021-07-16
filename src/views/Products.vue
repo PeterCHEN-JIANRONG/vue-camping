@@ -129,18 +129,8 @@
   <Loading :active="isLoading"></Loading>
 </template>
 <script>
+import myFavorite from '@/mixins/myFavorite';
 import emitter from '../methods/eventBus';
-
-// localStorage 我的最愛
-const localStorageMethods = {
-  save(item) {
-    const favoriteString = JSON.stringify(item);
-    localStorage.setItem('campingFavorite', favoriteString);
-  },
-  get() {
-    return JSON.parse(localStorage.getItem('campingFavorite'));
-  },
-};
 
 export default {
   data() {
@@ -154,9 +144,10 @@ export default {
       categories: [],
       selectCategory: '',
       searchKey: '',
-      myFavorite: localStorageMethods.get() || [],
+      myFavorite: [],
     };
   },
+  mixins: [myFavorite],
   methods: {
     getProducts() {
       this.isLoading = true;
@@ -207,14 +198,6 @@ export default {
         .catch((error) => {
           console.dir(error);
         });
-    },
-    addMyFavorite(item) {
-      if (this.myFavorite.includes(item.id)) {
-        this.myFavorite.splice(this.myFavorite.indexOf(item.id), 1);
-      } else {
-        this.myFavorite.push(item.id);
-      }
-      localStorageMethods.save(this.myFavorite);
     },
   },
   computed: {
