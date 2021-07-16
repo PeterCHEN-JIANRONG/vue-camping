@@ -240,6 +240,9 @@ export default {
         this.similarProducts.push(filterProducts[item]);
       });
     },
+    pushProductPage(item) {
+      this.$router.push(`/product/${item.id}`);
+    },
   },
   created() {
     // const { id } = this.$route.params;
