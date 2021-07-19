@@ -244,7 +244,7 @@ export default {
     pushProductPage(item) {
       this.getProduct(item.id);
       this.$router.push(`/product/${item.id}`);
-      window.scrollTo(0, 0); // 捲動至頂部
+      // window.scrollTo(0, 0); // 捲動至頂部
     },
   },
   created() {
