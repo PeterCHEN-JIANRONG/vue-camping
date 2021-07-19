@@ -27,10 +27,15 @@
                   {{ `${item.qty} ${item.product.unit}` }}
                 </td>
                 <td class="text-end">
-                  <small v-if="cart.final_total !== cart.total" class="text-success"
-                    >折扣價：</small
+                  <small
+                    v-if="item.coupon"
+                    class="text-muted d-block text-decoration-line-through"
+                    >{{ item.total }}</small
                   >
-                  {{ $filters.currency(item.final_total) }}
+                  <small v-if="item.coupon" class="text-success"
+                    >折扣價：{{ $filters.currency(item.final_total) }}</small
+                  >
+                  <span v-if="!item.coupon">{{ $filters.currency(item.final_total) }}</span>
                 </td>
               </tr>
             </template>
@@ -38,13 +43,19 @@
           <tfoot>
             <tr>
               <td colspan="2" class="text-end">總計</td>
-              <td class="text-end">{{ $filters.currency(cart.total) }}</td>
+              <td class="text-end">
+                <span
+                  :class="{
+                    'text-muted': cart.final_total !== cart.total,
+                    'text-decoration-line-through': cart.final_total !== cart.total,
+                  }"
+                  >{{ $filters.currency(cart.total) }}</span
+                >
+              </td>
             </tr>
             <tr v-if="cart.final_total !== cart.total">
-              <td colspan="2" class="text-end text-muted">折扣</td>
-              <td class="text-end text-muted">
-                - {{ $filters.currency(cart.total - cart.final_total) }}
-              </td>
+              <td colspan="2" class="text-end">折扣{{ discountNumber }}</td>
+              <td class="text-end">- {{ $filters.currency(cart.total - cart.final_total) }}</td>
             </tr>
             <tr v-if="cart.final_total !== cart.total">
               <td colspan="2" class="text-end text-success">折扣價</td>
@@ -190,13 +201,8 @@ export default {
         message: '',
       },
       hasCartsItems: false,
-      loadingStatus: {
-        loadingItem: '',
-      },
       isLoading: false,
       coupon_code: '',
-      products: [],
-      randomProducts: [],
     };
   },
   methods: {
@@ -209,68 +215,13 @@ export default {
           this.isLoading = false;
           if (res.data.success) {
             this.cart = res.data.data;
+            // 若無購物車資料則返回
             if (this.cart.carts.length === 0) {
               this.successAlert('無購物車資料');
               this.$router.push('/products/all');
             }
           } else {
             this.$httpMessageState(res, res.data.message);
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
-    },
-    updateCart(item) {
-      this.isLoading = true;
-      this.loadingStatus.loadingItem = item.id;
-      const data = {
-        product_id: item.product_id,
-        qty: item.qty,
-      };
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart/${item.id}`;
-      this.$http
-        .put(url, { data })
-        .then((res) => {
-          this.isLoading = false;
-          this.loadingStatus.loadingItem = '';
-          this.$httpMessageState(res, res.data.message);
-          if (res.data.success) {
-            this.getCart();
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
-    },
-    removeCartItem(id) {
-      this.isLoading = true;
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.$http
-        .delete(url)
-        .then((res) => {
-          this.isLoading = false;
-          this.$httpMessageState(res, res.data.message);
-          if (res.data.success) {
-            this.getCart();
-            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
-    },
-    deleteAllCarts() {
-      this.isLoading = true;
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`;
-      this.$http
-        .delete(url)
-        .then((res) => {
-          this.isLoading = false;
-          this.$httpMessageState(res, res.data.message);
-          if (res.data.success) {
-            this.getCart();
-            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
           }
         })
         .catch((error) => {
@@ -322,6 +273,14 @@ export default {
         showConfirmButton: false,
         timer: 1500,
       });
+    },
+  },
+  computed: {
+    discountNumber() {
+      const discount = Math.floor(
+        ((this.cart.total - this.cart.final_total) / this.cart.total) * 100,
+      );
+      return `(${discount}% off)`;
     },
   },
   watch: {

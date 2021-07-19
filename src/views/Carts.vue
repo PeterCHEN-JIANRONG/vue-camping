@@ -2,13 +2,9 @@
   <div class="banner"></div>
   <div class="container">
     <!-- 購物車列表 -->
-    <div v-if="cart.carts.length === 0" class="text-center py-5">
+    <div v-if="!hasCartsItems" class="text-center py-5">
       <p class="h2 mb-5">購物車尚無品項，趕緊去選購吧！</p>
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        @click="$router.push('/products/all')"
-      >
+      <button type="button" class="btn btn-outline-primary" @click="$router.push('/products/all')">
         <i class="bi bi-arrow-left me-2"></i>繼續選購
       </button>
     </div>
@@ -25,7 +21,7 @@
             清空購物車
           </button>
         </div>
-        <table class="table align-middle mb-3">
+        <table class="table align-middle mb-4">
           <thead>
             <tr>
               <th></th>
@@ -51,9 +47,6 @@
                 </td>
                 <td>
                   {{ item.product.title }}
-                  <div class="text-success" v-if="item.coupon">
-                    已套用優惠券
-                  </div>
                 </td>
                 <td>
                   <div class="input-group input-group-sm">
@@ -73,10 +66,7 @@
                   </div>
                 </td>
                 <td class="text-end">
-                  <small v-if="cart.final_total !== cart.total" class="text-success"
-                    >折扣價：</small
-                  >
-                  {{ $filters.currency(item.final_total) }}
+                  {{ $filters.currency(item.total) }}
                 </td>
               </tr>
             </template>
@@ -85,10 +75,6 @@
             <tr>
               <td colspan="3" class="text-end">總計</td>
               <td class="text-end">{{ $filters.currency(cart.total) }}</td>
-            </tr>
-            <tr v-if="cart.final_total !== cart.total">
-              <td colspan="3" class="text-end text-success">折扣價</td>
-              <td class="text-end text-success">{{ $filters.currency(cart.final_total) }}</td>
             </tr>
           </tfoot>
         </table>
@@ -125,7 +111,7 @@
         <div class="col-md-6 col-lg-4 col-xl-3 mb-4" v-for="item in randomProducts" :key="item.id">
           <div class="card" @click="$router.push(`/product/${item.id}`)">
             <div
-              class="card__img position-relative"
+              class="card__img position-relative border-bottom border-1 border-muted"
               :style="{ backgroundImage: `url('${item.imageUrl}')` }"
             >
               <span
@@ -187,21 +173,11 @@ export default {
         final_total: 0,
         carts: [],
       },
-      form: {
-        user: {
-          name: '',
-          email: '',
-          tel: '',
-          address: '',
-        },
-        message: '',
-      },
       hasCartsItems: false,
       loadingStatus: {
         loadingItem: '',
       },
       isLoading: false,
-      coupon_code: '',
       products: [],
       randomProducts: [],
     };
@@ -279,43 +255,6 @@ export default {
         .catch((error) => {
           console.dir(error);
         });
-    },
-    createOrder() {
-      this.isLoading = true;
-      const order = this.form;
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`;
-      this.$http
-        .post(url, { data: order })
-        .then((res) => {
-          this.isLoading = false;
-          this.$httpMessageState(res, '建立訂單');
-          if (res.data.success) {
-            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
-            this.$router.push(`/checkout/${res.data.orderId}`);
-            // 清空表單資料
-            this.$refs.form.resetForm();
-            this.form.message = '';
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
-    },
-    addCouponCode() {
-      const data = {
-        code: this.coupon_code,
-      };
-      this.isLoading = true;
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/coupon`;
-      this.$http.post(url, { data }).then((res) => {
-        this.isLoading = false;
-        if (res.data.success) {
-          this.$httpMessageState(res, '套用優惠券');
-          this.getCart();
-        } else {
-          this.$httpMessageState(res, res.data.message);
-        }
-      });
     },
     getProductsAll() {
       this.isLoading = true;
@@ -408,11 +347,13 @@ export default {
   }
   .card-title {
     max-width: 100%;
+    height: 48px;
   }
   .card__img {
     width: 100%;
     height: 250px;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
   }
 }

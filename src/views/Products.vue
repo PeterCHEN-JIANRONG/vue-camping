@@ -67,7 +67,7 @@
           <div class="col-md-6 col-lg-4 mb-4" v-for="item in filterProducts" :key="item.id">
             <div class="card" @click="pushProductPage(item)">
               <div
-                class="card__img position-relative"
+                class="card__img position-relative border-bottom border-1 border-muted"
                 :style="{ backgroundImage: `url('${item.imageUrl}')` }"
               >
                 <span
@@ -263,6 +263,7 @@ export default {
   }
   .card-title {
     max-width: 100%;
+    height: 48px;
   }
   .card__img {
     width: 100%;
