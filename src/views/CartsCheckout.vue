@@ -1,10 +1,10 @@
 <template>
   <div class="banner"></div>
   <div class="container">
-    <!-- 購物車列表 -->
+    <!-- 訂單填寫 -->
     <div class="row justify-content-center mt-5">
       <div class="col-md-6">
-        <h1 class="text-center">購物車</h1>
+        <h1 class="text-center">訂單填寫</h1>
         <div class="text-end">
           <button
             class="btn btn-outline-danger"
@@ -87,74 +87,111 @@
             <button
               type="button"
               class="btn btn-outline-secondary btn-block"
-              @click="$router.push('/products/all')"
+              @click="$router.push('/carts')"
             >
-              <i class="bi bi-arrow-left me-2"></i>繼續選購
+              <i class="bi bi-arrow-left me-2"></i>返回購物車
             </button>
           </div>
           <div class="col-6">
-            <button
-              type="button"
-              class="btn btn-primary btn-block"
-              @click="$router.push('/cartsCheckout')"
-            >
+            <button type="button" class="btn btn-primary btn-block">
               <span class="me-2">前往結帳</span>
               <i class="bi bi-arrow-right"></i>
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="bg-light py-3">
-    <div class="container">
-      <div class="row justify-content-between">
-        <div class="col-12">
-          <h2 class="mb-3 ">推薦商品</h2>
-        </div>
-        <div class="col-md-6 col-lg-4 col-xl-3 mb-4" v-for="item in randomProducts" :key="item.id">
-          <div class="card" @click="pushProductPage(item)">
-            <div
-              class="card__img position-relative"
-              :style="{ backgroundImage: `url('${item.imageUrl}')` }"
-            >
-              <span
-                v-if="item.options.sell_status"
-                class="bg-danger text-white d-inline-block px-2 py-1"
-                >{{ item.options.sell_status }}</span
-              >
-            </div>
-            <div class="card-body d-flex flex-column justify-content-center">
-              <h2 class="card-title h5">{{ item.title }}</h2>
-              <div class="h5 text-center py-1" v-if="item.price">
-                <span
-                  v-if="item.price != item.origin_price"
-                  class="h6 text-decoration-line-through"
-                >
-                  ${{ $filters.currency(item.origin_price) }}
-                </span>
-                <span v-if="item.price != item.origin_price" class="h4 text-danger fw-bold">
-                  ${{ $filters.currency(item.price) }}
-                </span>
-                <span v-if="item.price == item.origin_price" class="h4 fw-bold">
-                  ${{ $filters.currency(item.price) }}
-                </span>
-                元
-              </div>
-              <div class="btn-group btn-group-sm">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  @click.stop="addCart(item.id, 1)"
-                  :disabled="loadingStatus.loadingItem === item.id || !item.is_enabled"
-                >
-                  加到購物車
-                </button>
-              </div>
-            </div>
+        <div class="input-group mb-3 input-group-sm">
+          <input
+            type="text"
+            class="form-control"
+            v-model="coupon_code"
+            placeholder="請輸入優惠碼"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" @click="addCouponCode">
+              套用優惠碼
+            </button>
           </div>
         </div>
       </div>
+    </div>
+    <!-- 表單送出 -->
+    <div class="my-5 row justify-content-center">
+      <Form ref="form" class="col-md-6" v-slot="{ errors }" @submit="createOrder">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email*</label>
+          <Field
+            id="email"
+            name="email"
+            type="email"
+            placeholder="請輸入 Email"
+            class="form-control"
+            :class="{ 'is-invalid': errors['email'] }"
+            rules="email|required"
+            v-model="form.user.email"
+          ></Field>
+          <ErrorMessage name="email" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="name" class="form-label">收件人姓名*</label>
+          <Field
+            id="name"
+            name="姓名"
+            type="text"
+            placeholder="請輸入姓名"
+            class="form-control"
+            :class="{ 'is-invalid': errors['姓名'] }"
+            rules="required"
+            v-model="form.user.name"
+          ></Field>
+          <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="tel" class="form-label">收件人電話*</label>
+          <Field
+            id="tel"
+            name="電話"
+            type="text"
+            placeholder="請輸入電話"
+            class="form-control"
+            :class="{ 'is-invalid': errors['電話'] }"
+            rules="required|min:8|max:10"
+            v-model="form.user.tel"
+          ></Field>
+          <ErrorMessage name="電話" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="address" class="form-label">收件人地址*</label>
+          <Field
+            id="address"
+            name="地址"
+            type="text"
+            placeholder="請輸入地址"
+            class="form-control"
+            :class="{ 'is-invalid': errors['地址'] }"
+            rules="required"
+            v-model="form.user.address"
+          ></Field>
+          <ErrorMessage name="地址" class="invalid-feedback"></ErrorMessage>
+        </div>
+
+        <div class="mb-3">
+          <label for="message" class="form-label">訂單備註</label>
+          <textarea
+            name=""
+            id="message"
+            class="form-control"
+            cols="30"
+            rows="4"
+            v-model="form.message"
+          ></textarea>
+        </div>
+        <div class="text-end">
+          <button type="submit" class="btn btn-danger" :disabled="!hasCartsItems">送出訂單</button>
+        </div>
+      </Form>
     </div>
   </div>
 
@@ -163,11 +200,6 @@
 </template>
 <script>
 import emitter from '../methods/eventBus';
-
-// 取亂數
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
 
 export default {
   data() {
@@ -307,63 +339,6 @@ export default {
         }
       });
     },
-    getProductsAll() {
-      this.isLoading = true;
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.products = res.data.products;
-            this.getRandomProducts();
-          } else {
-            this.$httpMessageState(res, res.data.message);
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
-    },
-    getRandomProducts() {
-      // 隨機推薦產品
-      const randomArr = new Set([]);
-      const maxSize = this.products.length < 4 ? this.products.length : 4;
-
-      // 取得不重複亂數
-      for (let index = 0; randomArr.size < maxSize; index + 1) {
-        const randomNum = getRandomInt(this.products.length);
-        randomArr.add(randomNum);
-      }
-
-      this.randomProducts = [];
-      randomArr.forEach((item) => {
-        this.randomProducts.push(this.products[item]);
-      });
-    },
-    addCart(id, qty = 1) {
-      this.isLoading = true;
-      const data = {
-        product_id: id,
-        qty,
-      };
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .post(url, { data })
-        .then((res) => {
-          this.isLoading = false;
-          this.$httpMessageState(res, res.data.message);
-          if (res.data.success) {
-            this.qty = 1;
-            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
-            this.getCart();
-            // this.$router.push('/products');
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
-    },
   },
   watch: {
     cart() {
@@ -373,7 +348,6 @@ export default {
   },
   created() {
     this.getCart();
-    this.getProductsAll();
   },
 };
 </script>
@@ -390,20 +364,5 @@ export default {
 .btn-block {
   display: block;
   width: 100%;
-}
-
-.card {
-  &:hover {
-    box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
-  }
-  .card-title {
-    max-width: 100%;
-  }
-  .card__img {
-    width: 100%;
-    height: 250px;
-    background-size: cover;
-    background-position: center;
-  }
 }
 </style>

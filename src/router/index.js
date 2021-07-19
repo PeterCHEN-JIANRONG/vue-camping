@@ -34,6 +34,11 @@ const routes = [
         component: () => import('../views/Carts.vue'),
       },
       {
+        path: 'cartsCheckout',
+        name: '購物車確認完成',
+        component: () => import('../views/CartsCheckout.vue'),
+      },
+      {
         path: 'checkout/:orderId',
         name: '結帳頁',
         component: () => import('../views/Checkout.vue'),
@@ -92,6 +97,13 @@ const router = createRouter({
   history: createWebHashHistory(),
   linkActiveClass: 'active',
   routes,
+  // 切換頁面時滾至頂部
+  scrollBehavior() {
+    return {
+      top: 0,
+      behavior: 'smooth',
+    };
+  },
 });
 
 export default router;

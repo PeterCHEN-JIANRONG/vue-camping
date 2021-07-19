@@ -295,9 +295,5 @@ img {
     background-size: cover;
     background-position: center;
   }
-
-  .btn__favorite {
-    max-width: 50px;
-  }
 }
 </style>
