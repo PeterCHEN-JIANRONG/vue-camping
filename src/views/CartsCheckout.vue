@@ -4,21 +4,10 @@
     <!-- 訂單填寫 -->
     <div class="row justify-content-center mt-5">
       <div class="col-md-6">
-        <h1 class="text-center">訂單填寫</h1>
-        <div class="text-end">
-          <button
-            class="btn btn-outline-danger"
-            type="button"
-            :disabled="!hasCartsItems"
-            @click="deleteAllCarts"
-          >
-            清空購物車
-          </button>
-        </div>
+        <h1 class="text-center mb-3">訂單確認</h1>
         <table class="table align-middle mb-3">
           <thead>
             <tr>
-              <th></th>
               <th>品名</th>
               <th style="width: 150px">數量/單位</th>
               <th>單價</th>
@@ -29,38 +18,13 @@
               <!-- 判斷 購物車是否有資料 -->
               <tr v-for="item in cart.carts" :key="item.id">
                 <td>
-                  <button
-                    type="button"
-                    title="刪除"
-                    class="btn btn-outline-danger btn-sm"
-                    @click="removeCartItem(item.id)"
-                    :disabled="loadingStatus.loadingItem === item.id"
-                  >
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-                <td>
                   {{ item.product.title }}
                   <div class="text-success" v-if="item.coupon">
                     已套用優惠券
                   </div>
                 </td>
                 <td>
-                  <div class="input-group input-group-sm">
-                    <div class="input-group">
-                      <input
-                        class="form-control text-center"
-                        type="number"
-                        min="1"
-                        v-model.number="item.qty"
-                        @blur="updateCart(item)"
-                        :disabled="loadingStatus.loadingItem === item.id"
-                      />
-                      <span class="input-group-text" id="basic-addon2">
-                        {{ item.product.unit }}
-                      </span>
-                    </div>
-                  </div>
+                  {{ `${item.qty} ${item.product.unit}` }}
                 </td>
                 <td class="text-end">
                   <small v-if="cart.final_total !== cart.total" class="text-success"
@@ -73,50 +37,43 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="3" class="text-end">總計</td>
+              <td colspan="2" class="text-end">總計</td>
               <td class="text-end">{{ $filters.currency(cart.total) }}</td>
             </tr>
             <tr v-if="cart.final_total !== cart.total">
-              <td colspan="3" class="text-end text-success">折扣價</td>
+              <td colspan="2" class="text-end text-muted">折扣</td>
+              <td class="text-end text-muted">
+                - {{ $filters.currency(cart.total - cart.final_total) }}
+              </td>
+            </tr>
+            <tr v-if="cart.final_total !== cart.total">
+              <td colspan="2" class="text-end text-success">折扣價</td>
               <td class="text-end text-success">{{ $filters.currency(cart.final_total) }}</td>
             </tr>
           </tfoot>
         </table>
-        <div class="row mb-5">
-          <div class="col-6">
-            <button
-              type="button"
-              class="btn btn-outline-secondary btn-block"
-              @click="$router.push('/carts')"
-            >
-              <i class="bi bi-arrow-left me-2"></i>返回購物車
-            </button>
-          </div>
-          <div class="col-6">
-            <button type="button" class="btn btn-primary btn-block">
-              <span class="me-2">前往結帳</span>
-              <i class="bi bi-arrow-right"></i>
-            </button>
-          </div>
-        </div>
+        <label for="coupon" class="h6">折扣碼</label>
         <div class="input-group mb-3 input-group-sm">
           <input
             type="text"
+            id="coupon"
             class="form-control"
             v-model="coupon_code"
             placeholder="請輸入優惠碼"
           />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" @click="addCouponCode">
+            <button class="btn btn-outline-success" type="button" @click="addCouponCode">
               套用優惠碼
             </button>
           </div>
         </div>
+        <hr class="my-4" />
       </div>
     </div>
     <!-- 表單送出 -->
-    <div class="my-5 row justify-content-center">
+    <div class="mb-5 row justify-content-center">
       <Form ref="form" class="col-md-6" v-slot="{ errors }" @submit="createOrder">
+        <h2 class="text-center bg-primary text-white py-2">客戶資訊</h2>
         <div class="mb-3">
           <label for="email" class="form-label">Email*</label>
           <Field
@@ -188,8 +145,22 @@
             v-model="form.message"
           ></textarea>
         </div>
-        <div class="text-end">
-          <button type="submit" class="btn btn-danger" :disabled="!hasCartsItems">送出訂單</button>
+        <div class="row">
+          <div class="col-6">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-block"
+              @click="$router.push('/carts')"
+            >
+              <i class="bi bi-arrow-left me-2"></i>返回購物車
+            </button>
+          </div>
+          <div class="col-6">
+            <button type="submit" class="btn btn-primary btn-block" :disabled="!hasCartsItems">
+              <span class="me-2">送出訂單</span>
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
         </div>
       </Form>
     </div>
@@ -238,6 +209,10 @@ export default {
           this.isLoading = false;
           if (res.data.success) {
             this.cart = res.data.data;
+            if (this.cart.carts.length === 0) {
+              this.successAlert('無購物車資料');
+              this.$router.push('/products/all');
+            }
           } else {
             this.$httpMessageState(res, res.data.message);
           }
@@ -339,6 +314,15 @@ export default {
         }
       });
     },
+    successAlert(msg) {
+      this.$swal.fire({
+        // position: 'top-end',
+        icon: 'success',
+        title: msg,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    },
   },
   watch: {
     cart() {
@@ -355,8 +339,8 @@ export default {
 <style lang="scss" scoped>
 .banner {
   height: calc(30vh);
-  background-image: url(https://images.unsplash.com/photo-1476041800959-2f6bb412c8ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80);
-  background-position: 50% 55%;
+  background-image: url(https://images.unsplash.com/photo-1444124818704-4d89a495bbae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80);
+  background-position: 50% 80%;
   background-size: cover;
   background-repeat: no-repeat;
 }

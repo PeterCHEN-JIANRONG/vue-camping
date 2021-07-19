@@ -2,7 +2,17 @@
   <div class="banner"></div>
   <div class="container">
     <!-- 購物車列表 -->
-    <div class="row justify-content-center mt-5">
+    <div v-if="cart.carts.length === 0" class="text-center py-5">
+      <p class="h2 mb-5">購物車尚無品項，趕緊去選購吧！</p>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        @click="$router.push('/products/all')"
+      >
+        <i class="bi bi-arrow-left me-2"></i>繼續選購
+      </button>
+    </div>
+    <div v-if="cart.carts.length > 0" class="row justify-content-center mt-5">
       <div class="col-md-6">
         <h1 class="text-center">購物車</h1>
         <div class="text-end">
