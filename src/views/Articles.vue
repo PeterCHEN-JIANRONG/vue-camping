@@ -5,7 +5,7 @@
     <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
       <template v-for="article in articles" :key="article.id">
         <div
-          class="col-md-4"
+          class="col-md-6 col-lg-4"
           v-if="article.isPublic"
           @click="$router.push(`/article/${article.id}`)"
         >
@@ -17,7 +17,7 @@
             <!-- <img :src="article.imageUrl" class="card-img-top" /> -->
             <div class="card-body">
               <h5 class="card-title">{{ article.title }}</h5>
-              <div v-html="article.description"></div>
+              <div v-html="article.description" class="card-description text-muted"></div>
             </div>
             <div class="card-footer text-center">
               <router-link
@@ -77,7 +77,8 @@ export default {
   &:hover {
     box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
   }
-  // .card-title {
+  // .card-title,
+  // .card-description {
   //   max-width: 100%;
   //   height: 48px;
   // }
