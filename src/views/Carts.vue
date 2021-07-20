@@ -27,7 +27,7 @@
               <th></th>
               <th>品名</th>
               <th style="width: 150px">數量/單位</th>
-              <th>單價</th>
+              <th>金額</th>
             </tr>
           </thead>
           <tbody>

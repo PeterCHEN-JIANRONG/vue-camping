@@ -22,7 +22,7 @@ import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 
 import $httpMessageState from '@/methods/pushMessageState';
-import { date, currency } from './methods/filters';
+import { date, dateTime, currency } from './methods/filters';
 // 自定義檔案放後面
 import App from './App.vue';
 import router from './router';
@@ -45,6 +45,7 @@ const app = createApp(App);
 app.config.globalProperties.$filters = {
   date,
   currency,
+  dateTime,
 };
 
 // 正常來說不建議太多方法掛 Global，這裡可以使用 provide 來處理
