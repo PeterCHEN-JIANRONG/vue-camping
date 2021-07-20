@@ -1,15 +1,16 @@
 <template>
   <div class="container">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><router-link to="/articles">部落格列表</router-link></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
-      </ol>
-    </nav>
     <div class="row justify-content-center">
-      <article class="col-8">
-        <h2>{{ article.title }}</h2>
-        <p>
+      <article class="col-md-8 py-3">
+        <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><router-link to="/articles">部落格</router-link></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+          </ol>
+        </nav>
+        <hr />
+        <h2 class="text-center">{{ article.title }}</h2>
+        <p class="text-end">
           <small class="text-muted">{{ $filters.date(article.create_at) }}</small> -
           <small class="text-muted">作者：{{ article.author }}</small>
         </p>
