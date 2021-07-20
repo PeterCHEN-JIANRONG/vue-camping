@@ -89,11 +89,7 @@
             </button>
           </div>
           <div class="col-6">
-            <button
-              type="button"
-              class="btn btn-primary btn-block"
-              @click="$router.push('/cartsCheckout')"
-            >
+            <button type="button" class="btn btn-primary btn-block" @click="$router.push('/order')">
               <span class="me-2">前往結帳</span>
               <i class="bi bi-arrow-right"></i>
             </button>

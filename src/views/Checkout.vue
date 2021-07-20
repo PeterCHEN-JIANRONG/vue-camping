@@ -134,6 +134,9 @@ export default {
               };
             } else {
               this.hasOrder = true;
+              if (res.data.order.is_paid) {
+                this.$router.push(`/completed/${this.orderId}`);
+              }
               this.order = res.data.order;
             }
           } else {
@@ -160,7 +163,8 @@ export default {
           this.isLoading = false;
           if (res.data.success) {
             this.successAlert(res.data.message);
-            this.getOrder();
+            this.$router.push(`/completed/${this.orderId}`);
+            // this.getOrder();
           } else {
             this.$httpMessageState(res, res.data.message);
           }
