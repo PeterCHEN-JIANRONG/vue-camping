@@ -58,6 +58,11 @@ const routes = [
         name: '部落格頁',
         component: () => import('../views/Article.vue'),
       },
+      {
+        path: 'favorite',
+        name: '我的最愛',
+        component: () => import('../views/Favorite.vue'),
+      },
     ],
   },
   {

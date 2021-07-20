@@ -27,6 +27,11 @@
             <router-link class="nav-link px-3" to="/products/all">產品</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link px-3" to="/favorite">
+              <i class="bi bi-heart-fill"></i>
+            </router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link px-3" to="/carts">
               <div class="d-inline position-relative">
                 <i class="bi bi-cart-fill"></i>

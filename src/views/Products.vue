@@ -15,7 +15,7 @@
         </ol>
       </nav>
       <!-- 搜尋 -->
-      <div class="search">
+      <div class="search d-none d-md-block">
         <input
           title="請輸入搜尋關鍵字"
           class="me-2"
