@@ -71,7 +71,7 @@
 
   <section class="on-sell bg-light py-3">
     <h2 class="text-center mb-4">
-      <span class="border-start border-end  border-2 border-secondary px-2">熱賣商品</span>
+      <span class="border-start border-end  border-2 border-secondary px-2">暢銷商品</span>
     </h2>
     <div class="container">
       <div class="row">

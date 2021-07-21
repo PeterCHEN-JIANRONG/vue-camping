@@ -1,6 +1,12 @@
 <template>
   <div class="banner"></div>
-  <div class="container py-4">
+  <div v-if="myFavoriteProducts.length === 0" class="text-center py-5">
+    <p class="h2 mb-5">我的最愛尚無品項，趕緊去選購吧！</p>
+    <button type="button" class="btn btn-outline-primary" @click="$router.push('/products/all')">
+      <i class="bi bi-arrow-left me-2"></i>繼續選購
+    </button>
+  </div>
+  <div v-else class="container py-4">
     <h1 class="text-center mb-4">我的最愛</h1>
     <div class="row justify-content-center">
       <div class="col-md-8" v-for="item in myFavoriteProducts" :key="item">
