@@ -7,7 +7,7 @@
     </button>
   </div>
   <div v-else class="container py-4">
-    <h1 class="text-center mb-4">我的最愛</h1>
+    <h1 class="text-center mb-4" id="main">我的最愛</h1>
     <div class="row justify-content-center">
       <div class="col-md-8" v-for="item in myFavoriteProducts" :key="item">
         <div class="card card__favorite mb-3" @click="$router.push(`/product/${item.id}`)">

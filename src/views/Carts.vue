@@ -10,7 +10,7 @@
     </div>
     <div v-if="cart.carts.length > 0" class="row justify-content-center mt-5">
       <div class="col-md-10 col-lg-8 col-xl-6">
-        <h1 class="text-center">購物車</h1>
+        <h1 class="text-center" id="main">購物車</h1>
         <div class="text-end">
           <button
             class="btn btn-outline-danger"

@@ -1,7 +1,7 @@
 <template>
   <div class="banner"></div>
   <div class="container py-4">
-    <h1 class="text-center mb-4">關於我們</h1>
+    <h1 class="text-center mb-4" id="main">關於我們</h1>
     <div class="row">
       <div class="col-lg-6 d-flex flex-column justify-content-center border border-1 mb-3">
         <h2 class="text-center">品牌理念</h2>

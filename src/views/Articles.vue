@@ -2,7 +2,7 @@
   <Loading :active="isLoading"></Loading>
   <div class="banner"></div>
   <div class="container p-4">
-    <h1 class="text-center">部落格</h1>
+    <h1 class="text-center" id="main">部落格</h1>
     <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
       <template v-for="article in articles" :key="article.id">
         <div

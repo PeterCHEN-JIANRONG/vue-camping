@@ -38,7 +38,7 @@
         </div> -->
       </div>
       <div class="col-md-6 product__content mb-4">
-        <h1 class="">{{ product.title }}</h1>
+        <h1 class="" id="main">{{ product.title }}</h1>
         <h5 class="mb-4">
           <span class="badge bg-secondary rounded-pill me-2">
             <router-link

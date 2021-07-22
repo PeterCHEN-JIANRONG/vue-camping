@@ -10,7 +10,7 @@
           </ol>
         </nav>
         <hr />
-        <h2 class="text-center">{{ article.title }}</h2>
+        <h1 class="text-center" id="main">{{ article.title }}</h1>
         <p class="text-end">
           <small class="text-muted">{{ $filters.date(article.create_at) }}</small> -
           <small class="text-muted">作者：{{ article.author }}</small>
