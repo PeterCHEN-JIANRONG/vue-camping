@@ -273,10 +273,18 @@ export default {
   // opacity: 0.5;
 
   &__content {
-    background: hsla(0, 0%, 100%, 0.1);
+    // background: hsla(0, 0%, 100%, 0.1);
+    width: 100%;
     padding: 10px 20px;
   }
 }
+// @media (max-width: 992px) {
+//   .header {
+//     &__content {
+//       width: 100%;
+//     }
+//   }
+// }
 
 .main {
   .card {
