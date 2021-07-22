@@ -72,7 +72,7 @@
         <div class="col-12">
           <h2 class="mb-3 ">推薦商品</h2>
         </div>
-        <div class="col-md-6 col-lg-4 col-xl-3 mb-4" v-for="item in randomProducts" :key="item.id">
+        <div class="col-md-6 col-xl-3 mb-4" v-for="item in randomProducts" :key="item.id">
           <div class="card random__products" @click="$router.push(`/product/${item.id}`)">
             <div
               class="card__img position-relative border-bottom border-1 border-muted"

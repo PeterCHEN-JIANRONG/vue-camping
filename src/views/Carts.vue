@@ -9,7 +9,7 @@
       </button>
     </div>
     <div v-if="cart.carts.length > 0" class="row justify-content-center mt-5">
-      <div class="col-md-6">
+      <div class="col-md-10 col-lg-8 col-xl-6">
         <h1 class="text-center">購物車</h1>
         <div class="text-end">
           <button
@@ -104,7 +104,7 @@
         <div class="col-12">
           <h2 class="mb-3 ">推薦商品</h2>
         </div>
-        <div class="col-md-6 col-lg-4 col-xl-3 mb-4" v-for="item in randomProducts" :key="item.id">
+        <div class="col-md-6 col-xl-3 mb-4" v-for="item in randomProducts" :key="item.id">
           <div class="card" @click="$router.push(`/product/${item.id}`)">
             <div
               class="card__img position-relative border-bottom border-1 border-muted"

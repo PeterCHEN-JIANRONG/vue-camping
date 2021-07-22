@@ -1,4 +1,5 @@
 <template>
+  <Loading :active="isLoading"></Loading>
   <div class="banner"></div>
   <div class="container p-4">
     <h1 class="text-center">部落格</h1>

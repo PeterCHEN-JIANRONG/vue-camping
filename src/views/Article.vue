@@ -1,4 +1,5 @@
 <template>
+  <Loading :active="isLoading"></Loading>
   <div class="container">
     <div class="row justify-content-center">
       <article class="col-md-8 py-3">
