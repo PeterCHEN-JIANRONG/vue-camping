@@ -79,7 +79,7 @@
           </tfoot>
         </table>
         <div class="row mb-5">
-          <div class="col-6">
+          <div class="col mb-2">
             <button
               type="button"
               class="btn btn-outline-secondary btn-block"
@@ -88,7 +88,7 @@
               <i class="bi bi-arrow-left me-2"></i>繼續選購
             </button>
           </div>
-          <div class="col-6">
+          <div class="col">
             <button type="button" class="btn btn-primary btn-block" @click="$router.push('/order')">
               <span class="me-2">前往結帳</span>
               <i class="bi bi-arrow-right"></i>

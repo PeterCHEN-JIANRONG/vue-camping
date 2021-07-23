@@ -81,7 +81,7 @@
               <button type="submit" class="btn btn-danger">確認付款去</button>
             </div> -->
             <div class="row">
-              <div class="col-6">
+              <div class="col mb-2">
                 <button
                   type="button"
                   class="btn btn-outline-secondary btn-block"
@@ -90,7 +90,7 @@
                   <i class="bi bi-arrow-left me-2"></i>返回首頁
                 </button>
               </div>
-              <div class="col-6">
+              <div class="col">
                 <button type="submit" class="btn btn-primary btn-block">
                   <span class="me-2">確認付款</span>
                   <i class="bi bi-arrow-right"></i>
