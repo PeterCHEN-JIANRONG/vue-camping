@@ -3,7 +3,7 @@
   <Loading :active="isLoading"></Loading>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top" :class="classList.navbar">
     <div class="container">
-      <router-link class="navbar-brand ff-Otomanopee fs-3" to="/">CAMPING</router-link>
+      <router-link class="navbar-brand ff-Otomanopee fs-3 m-0" to="/">CAMPING</router-link>
       <button
         class="navbar-toggler"
         type="button"

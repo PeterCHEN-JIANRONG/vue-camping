@@ -26,7 +26,7 @@
             <tr>
               <th></th>
               <th>品名</th>
-              <th style="width: 150px">數量/單位</th>
+              <th class="table__number">數量/單位</th>
               <th>金額</th>
             </tr>
           </thead>
@@ -352,5 +352,9 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
   }
+}
+
+.table__number {
+  width: 150px;
 }
 </style>
