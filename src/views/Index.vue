@@ -10,7 +10,7 @@
       <button class="btn btn-primary" @click="$router.push('/products/all')">前往購物</button>
     </div>
     <div class="position-absolute bottom-0 start-50 translate-middle-x pb-3">
-      <a href="#" class="h2 text-muted">
+      <a class="h2 text-muted">
         <i class="bi bi-arrow-down-circle"></i>
       </a>
     </div>
