@@ -25,12 +25,13 @@
           <thead>
             <tr>
               <th></th>
+              <th class="table__img">照片</th>
               <th>品名</th>
               <th class="table__number">數量</th>
               <th>金額</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="product__list">
             <template v-if="cart.carts">
               <!-- 判斷 購物車是否有資料 -->
               <tr v-for="item in cart.carts" :key="item.id">
@@ -44,6 +45,12 @@
                   >
                     <i class="bi bi-trash"></i>
                   </button>
+                </td>
+                <td>
+                  <div
+                    class="product__bg"
+                    :style="{ backgroundImage: `url('${item.product.imageUrl}')` }"
+                  ></div>
                 </td>
                 <td>
                   {{ item.product.title }}
@@ -73,7 +80,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="3" class="text-end">總計</td>
+              <td colspan="4" class="text-end">總計</td>
               <td class="text-end">{{ $filters.currency(cart.total) }}</td>
             </tr>
           </tfoot>
@@ -85,15 +92,17 @@
             v-for="item in cart.carts"
             :key="`${item.id}_`"
           >
-            <div class="row align-items-center">
-              <div
-                class="col-3 product__bg"
-                :style="{ backgroundImage: `url('${item.product.imageUrl}')` }"
-              ></div>
+            <div class="row align-items-center mb-3">
+              <div class="col-3">
+                <div
+                  class="product__bg"
+                  :style="{ backgroundImage: `url('${item.product.imageUrl}')` }"
+                ></div>
+              </div>
               <div class="col-9">{{ item.product.title }}</div>
             </div>
             <div class="row align-items-center">
-              <div class="col text-center">
+              <div class="col-3 text-center">
                 <button
                   type="button"
                   title="刪除"
@@ -104,7 +113,7 @@
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
-              <div class="col text-center">
+              <div class="col-5 text-center">
                 <div class="input-group input-group-sm">
                   <div class="input-group">
                     <input
@@ -402,6 +411,10 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
   }
+}
+
+.table__img {
+  width: 150px;
 }
 
 .table__number {
