@@ -21,7 +21,7 @@
             清空購物車
           </button>
         </div>
-        <table class="table align-middle mb-4">
+        <table class="table align-middle mb-4 d-none d-sm-table">
           <thead>
             <tr>
               <th></th>
@@ -78,6 +78,56 @@
             </tr>
           </tfoot>
         </table>
+
+        <div class="product__list mb-4 d-block d-sm-none">
+          <div
+            class="border-bottom border-1 mb-3 pb-2"
+            v-for="item in cart.carts"
+            :key="`${item.id}_`"
+          >
+            <div class="row align-items-center">
+              <div
+                class="col-3 product__bg"
+                :style="{ backgroundImage: `url('${item.product.imageUrl}')` }"
+              ></div>
+              <div class="col-9">{{ item.product.title }}</div>
+            </div>
+            <div class="row align-items-center">
+              <div class="col text-center">
+                <button
+                  type="button"
+                  title="刪除"
+                  class="btn btn-outline-danger btn-sm"
+                  @click="removeCartItem(item.id)"
+                  :disabled="loadingStatus.loadingItem === item.id"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+              <div class="col text-center">
+                <div class="input-group input-group-sm">
+                  <div class="input-group">
+                    <input
+                      class="form-control text-center"
+                      type="number"
+                      min="1"
+                      v-model.number="item.qty"
+                      @blur="updateCart(item)"
+                      :disabled="loadingStatus.loadingItem === item.id"
+                    />
+                    <span class="input-group-text" id="basic-addon2">
+                      {{ item.product.unit }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col text-center">
+                {{ $filters.currency(item.total) }}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row mb-5">
           <div class="col mb-2">
             <button
@@ -368,4 +418,14 @@ export default {
 //     display: none;
 //   }
 // }
+
+.product__list {
+  .product__bg {
+    // width: 100%;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
 </style>
