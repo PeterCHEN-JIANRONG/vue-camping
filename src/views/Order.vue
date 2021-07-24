@@ -9,7 +9,7 @@
           <thead>
             <tr>
               <th>品名</th>
-              <th style="width: 150px">數量/單位</th>
+              <th>數量</th>
               <th>金額</th>
             </tr>
           </thead>

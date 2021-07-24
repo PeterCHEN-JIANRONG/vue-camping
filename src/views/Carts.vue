@@ -26,7 +26,7 @@
             <tr>
               <th></th>
               <th>品名</th>
-              <th class="table__number">數量/單位</th>
+              <th class="table__number">數量</th>
               <th>金額</th>
             </tr>
           </thead>
@@ -357,4 +357,15 @@ export default {
 .table__number {
   width: 150px;
 }
+// .table {
+//   display: table;
+//   &__number {
+//     width: 150px;
+//   }
+// }
+// @media (max-width: 280px) {
+//   .table {
+//     display: none;
+//   }
+// }
 </style>
