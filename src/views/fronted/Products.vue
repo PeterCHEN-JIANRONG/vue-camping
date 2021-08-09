@@ -94,14 +94,6 @@
                   元
                 </div>
                 <div class="btn-group btn-group-sm">
-                  <!-- <button
-                    type="button"
-                    class="btn btn-outline-secondary"
-                    @click.stop="pushProductPage(item)"
-                    :disabled="loadingStatus.loadingItem === item.id || !item.is_enabled"
-                  >
-                    查看更多
-                  </button> -->
                   <button
                     type="button"
                     class="btn btn-outline-danger btn__favorite"

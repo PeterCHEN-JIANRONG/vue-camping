@@ -16,26 +16,7 @@
     <hr class="my-4" />
     <div class="row">
       <div class="col-md-6 mb-4">
-        <!-- <img class="img-fluid mb-4" :src="product.imageUrl" alt="" /> -->
         <div class="product__img" :style="{ backgroundImage: `url('${product.imageUrl}')` }"></div>
-        <!-- 產品次要照 -->
-        <!-- <div class="row">
-          <div class="col-3">
-            <img
-              class="img-fluid border border-secondary"
-              :src="product.imageUrl"
-              alt=""
-              @click="showImageUrl = product.imageUrl"
-            />
-          </div>
-          <div class="col-3" v-for="item in product.imagesUrl" :key="item">
-            <img
-              class="img-fluid border border-secondary"
-              :src="item"
-              @click="showImageUrl = item"
-            />
-          </div>
-        </div> -->
       </div>
       <div class="col-md-6 product__content mb-4">
         <h1 class="" id="main">{{ product.title }}</h1>
@@ -74,7 +55,13 @@
           ><span class="h2">元</span>
         </div>
         <div class="input-group">
-          <input type="number" class="form-control text-center" v-model.number="qty" min="1" />
+          <input
+            type="number"
+            class="form-control text-center"
+            v-model.number="qty"
+            min="1"
+            @change="qty = qty < 1 ? 1 : qty"
+          />
           <button type="button" class="btn btn-primary btn-lg" @click="addCart(product.id, qty)">
             加入購物車
           </button>
@@ -176,10 +163,12 @@ export default {
       });
     },
     addCart(id, qty) {
+      // 避免加入購物車數量小於1
+      const qtyTemp = qty < 1 ? 1 : qty;
       this.isLoading = true;
       const data = {
         product_id: id,
-        qty,
+        qty: qtyTemp,
       };
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
       this.$http.post(url, { data }).then((res) => {

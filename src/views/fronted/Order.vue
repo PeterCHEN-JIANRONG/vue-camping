@@ -69,7 +69,7 @@
             type="text"
             id="coupon"
             class="form-control"
-            v-model="coupon_code"
+            v-model.trim="coupon_code"
             placeholder="請輸入優惠碼"
           />
           <div class="input-group-append">
@@ -120,7 +120,7 @@
           <Field
             id="tel"
             name="電話"
-            type="text"
+            type="tel"
             placeholder="請輸入電話"
             class="form-control"
             :class="{ 'is-invalid': errors['電話'] }"
