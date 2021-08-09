@@ -85,17 +85,8 @@ export default {
         }
       });
     },
-  },
-  mounted() {
-    this.getCart();
-
-    // 監聽加入購物車, 重新取得購物車數量
-    emitter.on('update-cartNum', () => {
-      this.getCart();
-    });
-
-    // 加入捲動特效
-    window.addEventListener('scroll', () => {
+    scrollMethod() {
+      // navbar滾動縮放
       const windowY = window.scrollY;
 
       const main = document.querySelector('#main');
@@ -110,12 +101,23 @@ export default {
           };
         }
       }
+    },
+  },
+  mounted() {
+    this.getCart();
+
+    // 監聽加入購物車, 重新取得購物車數量
+    emitter.on('update-cartNum', () => {
+      this.getCart();
     });
+
+    // 加入捲動特效
+    window.addEventListener('scroll', this.scrollMethod);
   },
   unmounted() {
     // 移除emitter, window事件
     emitter.off('update-cartNum');
-    window.removeEventListener();
+    window.removeEventListener('scroll', this.scrollMethod);
   },
 };
 </script>
