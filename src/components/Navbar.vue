@@ -113,7 +113,9 @@ export default {
     });
   },
   unmounted() {
+    // 移除emitter, window事件
     emitter.off('update-cartNum');
+    window.removeEventListener();
   },
 };
 </script>
