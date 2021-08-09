@@ -132,7 +132,7 @@
 </template>
 <script>
 import myFavorite from '@/mixins/myFavorite';
-import emitter from '../methods/eventBus';
+import emitter from '../../methods/eventBus';
 
 export default {
   data() {

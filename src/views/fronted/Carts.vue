@@ -213,7 +213,7 @@
   <Loading :active="isLoading"></Loading>
 </template>
 <script>
-import emitter from '../methods/eventBus';
+import emitter from '../../methods/eventBus';
 
 // 取亂數
 function getRandomInt(max) {
