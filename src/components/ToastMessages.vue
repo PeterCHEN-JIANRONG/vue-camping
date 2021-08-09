@@ -49,5 +49,8 @@ export default {
       this.toastShow();
     });
   },
+  unmounted() {
+    this.emitter.off('push-message');
+  },
 };
 </script>

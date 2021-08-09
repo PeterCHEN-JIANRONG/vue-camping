@@ -112,6 +112,9 @@ export default {
       }
     });
   },
+  unmounted() {
+    emitter.off('update-cartNum');
+  },
 };
 </script>
 
