@@ -154,20 +154,15 @@ export default {
     getProducts() {
       this.isLoading = true;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          if (res.data.success) {
-            this.products = res.data.products;
-            this.getCategories();
-          } else {
-            this.errorAlert(res.data.message);
-          }
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          console.dir(err);
-        });
+      this.$http.get(url).then((res) => {
+        if (res.data.success) {
+          this.products = res.data.products;
+          this.getCategories();
+        } else {
+          this.errorAlert(res.data.message);
+        }
+        this.isLoading = false;
+      });
     },
     getCategories() {
       const categories = new Set();
@@ -187,19 +182,14 @@ export default {
         qty,
       };
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .post(url, { data })
-        .then((res) => {
-          this.isLoading = false;
-          this.loadingStatus.loadingItem = '';
-          this.$httpMessageState(res, res.data.message);
-          if (res.data.success) {
-            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
+      this.$http.post(url, { data }).then((res) => {
+        this.isLoading = false;
+        this.loadingStatus.loadingItem = '';
+        this.$httpMessageState(res, res.data.message);
+        if (res.data.success) {
+          emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
+        }
+      });
     },
   },
   computed: {

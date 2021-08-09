@@ -120,65 +120,41 @@ export default {
     getOrder() {
       this.isLoading = true;
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order/${this.orderId}`;
-      this.$http
-        .get(api)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            if (res.data.order === null) {
-              this.errorAlert('查無訂單');
-              this.$router.push('/');
-              this.hasOrder = false;
-              this.order = {
-                user: {},
-              };
-            } else {
-              this.hasOrder = true;
-              if (res.data.order.is_paid) {
-                this.$router.push(`/completed/${this.orderId}`);
-              }
-              this.order = res.data.order;
-            }
+      this.$http.get(api).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          if (res.data.order === null) {
+            this.errorAlert('查無訂單');
+            this.$router.push('/');
+            this.hasOrder = false;
+            this.order = {
+              user: {},
+            };
           } else {
-            this.$httpMessageState(res, res.data.message);
+            this.hasOrder = true;
+            if (res.data.order.is_paid) {
+              this.$router.push(`/completed/${this.orderId}`);
+            }
+            this.order = res.data.order;
           }
-        })
-        .catch((error) => {
-          // axios 的錯誤狀態，可參考：https://github.com/axios/axios#handling-errors
-          console.log('error', error.response, error.request, error.message);
-          this.isLoading = false;
-          this.emitter.emit('push-message', {
-            title: '連線錯誤',
-            style: 'danger',
-            content: error.message,
-          });
-        });
+        } else {
+          this.$httpMessageState(res, res.data.message);
+        }
+      });
     },
     payOrder() {
       this.isLoading = true;
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`;
-      this.$http
-        .post(api)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.successAlert(res.data.message);
-            this.$router.push(`/completed/${this.orderId}`);
-            // this.getOrder();
-          } else {
-            this.$httpMessageState(res, res.data.message);
-          }
-        })
-        .catch((error) => {
-          // axios 的錯誤狀態，可參考：https://github.com/axios/axios#handling-errors
-          console.log('error', error.response, error.request, error.message);
-          this.isLoading = false;
-          this.emitter.emit('push-message', {
-            title: '連線錯誤',
-            style: 'danger',
-            content: error.message,
-          });
-        });
+      this.$http.post(api).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          this.successAlert(res.data.message);
+          this.$router.push(`/completed/${this.orderId}`);
+          // this.getOrder();
+        } else {
+          this.$httpMessageState(res, res.data.message);
+        }
+      });
     },
     successAlert(msg) {
       this.$swal.fire({

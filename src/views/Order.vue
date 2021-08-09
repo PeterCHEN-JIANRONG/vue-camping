@@ -209,45 +209,35 @@ export default {
     getCart() {
       this.isLoading = true;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.cart = res.data.data;
-            // 若無購物車資料則返回
-            if (this.cart.carts.length === 0) {
-              this.successAlert('無購物車資料');
-              this.$router.push('/products/all');
-            }
-          } else {
-            this.$httpMessageState(res, res.data.message);
+      this.$http.get(url).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          this.cart = res.data.data;
+          // 若無購物車資料則返回
+          if (this.cart.carts.length === 0) {
+            this.successAlert('無購物車資料');
+            this.$router.push('/products/all');
           }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
+        } else {
+          this.$httpMessageState(res, res.data.message);
+        }
+      });
     },
     createOrder() {
       this.isLoading = true;
       const order = this.form;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`;
-      this.$http
-        .post(url, { data: order })
-        .then((res) => {
-          this.isLoading = false;
-          this.$httpMessageState(res, '建立訂單');
-          if (res.data.success) {
-            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
-            this.$router.push(`/checkout/${res.data.orderId}`);
-            // 清空表單資料
-            this.$refs.form.resetForm();
-            this.form.message = '';
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
+      this.$http.post(url, { data: order }).then((res) => {
+        this.isLoading = false;
+        this.$httpMessageState(res, '建立訂單');
+        if (res.data.success) {
+          emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
+          this.$router.push(`/checkout/${res.data.orderId}`);
+          // 清空表單資料
+          this.$refs.form.resetForm();
+          this.form.message = '';
+        }
+      });
     },
     addCouponCode() {
       const data = {

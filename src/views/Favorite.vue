@@ -147,21 +147,16 @@ export default {
     getProductsAll() {
       this.isLoading = true;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.products = res.data.products;
-            this.getFavoriteProduct();
-            this.getRandomProducts();
-          } else {
-            this.$httpMessageState(res, res.data.message);
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
+      this.$http.get(url).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          this.products = res.data.products;
+          this.getFavoriteProduct();
+          this.getRandomProducts();
+        } else {
+          this.$httpMessageState(res, res.data.message);
+        }
+      });
     },
     getRandomProducts() {
       // 隨機推薦產品
@@ -186,19 +181,14 @@ export default {
         qty,
       };
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .post(url, { data })
-        .then((res) => {
-          this.isLoading = false;
-          this.$httpMessageState(res, res.data.message);
-          if (res.data.success) {
-            this.qty = 1;
-            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
+      this.$http.post(url, { data }).then((res) => {
+        this.isLoading = false;
+        this.$httpMessageState(res, res.data.message);
+        if (res.data.success) {
+          this.qty = 1;
+          emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
+        }
+      });
     },
     getFavoriteProduct() {
       if (this.myFavorite.length && this.products.length) {

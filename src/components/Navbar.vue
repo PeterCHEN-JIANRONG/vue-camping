@@ -76,19 +76,14 @@ export default {
     getCart() {
       this.isLoading = true;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.cart = res.data.data;
-          } else {
-            this.$httpMessageState(res, res.data.message);
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
+      this.$http.get(url).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          this.cart = res.data.data;
+        } else {
+          this.$httpMessageState(res, res.data.message);
+        }
+      });
     },
   },
   mounted() {

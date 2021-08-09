@@ -119,20 +119,15 @@ export default {
     getProducts(page = 1) {
       this.isLoading = true;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.products = res.data.products;
-            this.pagination = res.data.pagination;
-          } else {
-            this.$httpMessageState(res, '載入產品');
-          }
-        })
-        .catch((err) => {
-          console.dir(err);
-        });
+      this.$http.get(url).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          this.products = res.data.products;
+          this.pagination = res.data.pagination;
+        } else {
+          this.$httpMessageState(res, '載入產品');
+        }
+      });
     },
     updateProduct(item) {
       this.tempProduct = { ...item };

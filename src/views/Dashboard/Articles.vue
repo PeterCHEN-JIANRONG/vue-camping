@@ -79,47 +79,23 @@ export default {
       this.currentPage = page;
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/articles?page=${page}`;
       this.isLoading = true;
-      this.$http
-        .get(api)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.articles = res.data.articles;
-            this.pagination = res.data.pagination;
-          }
-        })
-        .catch((error) => {
-          // axios 的錯誤狀態，可參考：https://github.com/axios/axios#handling-errors
-          console.log('error', error.response, error.request, error.message);
-          this.isLoading = false;
-          this.emitter.emit('push-message', {
-            title: '連線錯誤',
-            style: 'danger',
-            content: error.message,
-          });
-        });
+      this.$http.get(api).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          this.articles = res.data.articles;
+          this.pagination = res.data.pagination;
+        }
+      });
     },
     getArticle(id) {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/article/${id}`;
       this.isLoading = true;
-      this.$http
-        .get(api)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.openArticleModal(false, res.data.article);
-          }
-        })
-        .catch((error) => {
-          // axios 的錯誤狀態，可參考：https://github.com/axios/axios#handling-errors
-          console.log('error', error.response, error.request, error.message);
-          this.isLoading = false;
-          this.emitter.emit('push-message', {
-            title: '連線錯誤',
-            style: 'danger',
-            content: error.message,
-          });
-        });
+      this.$http.get(api).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          this.openArticleModal(false, res.data.article);
+        }
+      });
     },
     updateArticle(item) {
       // 新增
@@ -133,49 +109,26 @@ export default {
         status = '更新貼文';
       }
       this.isLoading = true;
-      this.$http[httpMethod](api, { data: item })
-        .then((res) => {
-          this.isLoading = false;
-          this.$httpMessageState(res, status);
-          if (res.data.success) {
-            this.$refs.articleModal.hideModal();
-            this.getArticles(this.currentPage);
-          }
-        })
-        .catch((error) => {
-          // axios 的錯誤狀態，可參考：https://github.com/axios/axios#handling-errors
-          console.log('error', error.response, error.request, error.message);
-          this.isLoading = false;
-          this.emitter.emit('push-message', {
-            title: '連線錯誤',
-            style: 'danger',
-            content: error.message,
-          });
-        });
+      this.$http[httpMethod](api, { data: item }).then((res) => {
+        this.isLoading = false;
+        this.$httpMessageState(res, status);
+        if (res.data.success) {
+          this.$refs.articleModal.hideModal();
+          this.getArticles(this.currentPage);
+        }
+      });
     },
     delArticle(item) {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/article/${item.id}`;
       this.isLoading = true;
-      this.$http
-        .delete(api)
-        .then((res) => {
-          this.isLoading = false;
-          this.$httpMessageState(res, res.data.message);
-          if (res.data.success) {
-            this.$refs.delModal.hideModal();
-            this.getArticles(this.currentPage);
-          }
-        })
-        .catch((error) => {
-          // axios 的錯誤狀態，可參考：https://github.com/axios/axios#handling-errors
-          console.log('error', error.response, error.request, error.message);
-          this.isLoading = false;
-          this.emitter.emit('push-message', {
-            title: '連線錯誤',
-            style: 'danger',
-            content: error.message,
-          });
-        });
+      this.$http.delete(api).then((res) => {
+        this.isLoading = false;
+        this.$httpMessageState(res, res.data.message);
+        if (res.data.success) {
+          this.$refs.delModal.hideModal();
+          this.getArticles(this.currentPage);
+        }
+      });
     },
     openArticleModal(isNew, item) {
       if (isNew) {

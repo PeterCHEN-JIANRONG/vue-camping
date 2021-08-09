@@ -165,20 +165,15 @@ export default {
     getProduct(id) {
       this.isLoading = true;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/product/${id}`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.product = res.data.product;
-            this.getProductsAll();
-          } else {
-            this.$httpMessageState(res, res.data.message);
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
+      this.$http.get(url).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          this.product = res.data.product;
+          this.getProductsAll();
+        } else {
+          this.$httpMessageState(res, res.data.message);
+        }
+      });
     },
     addCart(id, qty) {
       this.isLoading = true;
@@ -187,38 +182,28 @@ export default {
         qty,
       };
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .post(url, { data })
-        .then((res) => {
-          this.isLoading = false;
-          this.$httpMessageState(res, res.data.message);
-          if (res.data.success) {
-            this.qty = 1;
-            emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
-            // this.$router.push('/products');
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
+      this.$http.post(url, { data }).then((res) => {
+        this.isLoading = false;
+        this.$httpMessageState(res, res.data.message);
+        if (res.data.success) {
+          this.qty = 1;
+          emitter.emit('update-cartNum'); // 更新購物車icon顯示數量
+          // this.$router.push('/products');
+        }
+      });
     },
     getProductsAll() {
       this.isLoading = true;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.isLoading = false;
-          if (res.data.success) {
-            this.products = res.data.products;
-            this.getSimilarProducts();
-          } else {
-            this.$httpMessageState(res, res.data.message);
-          }
-        })
-        .catch((error) => {
-          console.dir(error);
-        });
+      this.$http.get(url).then((res) => {
+        this.isLoading = false;
+        if (res.data.success) {
+          this.products = res.data.products;
+          this.getSimilarProducts();
+        } else {
+          this.$httpMessageState(res, res.data.message);
+        }
+      });
     },
     getSimilarProducts() {
       // 取得相似產品
