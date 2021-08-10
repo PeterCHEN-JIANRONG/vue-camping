@@ -37,11 +37,11 @@
         <h2 class="h5 mb-3">
           產品型號：<span class="text-muted">{{ product.options.model }}</span>
         </h2>
-        <div class="mb-3" v-if="product.price === product.origin_price">
+        <div class="mb-4" v-if="product.price === product.origin_price">
           <h2 class="h5">建議售價</h2>
           <span class="h2 ps-3"> {{ $filters.currency(product.origin_price) }} 元</span>
         </div>
-        <div class="mb-3" v-if="product.price !== product.origin_price">
+        <div class="mb-4" v-if="product.price !== product.origin_price">
           <h2 class="h5">建議售價</h2>
           <span class="h2 text-decoration-line-through ps-3">
             {{ $filters.currency(product.origin_price) }} 元
@@ -54,7 +54,7 @@
           }}</span
           ><span class="h2">元</span>
         </div>
-        <div class="input-group">
+        <div class="input-group w-75">
           <input
             type="number"
             class="form-control text-center"

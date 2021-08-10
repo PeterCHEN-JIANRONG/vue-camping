@@ -278,6 +278,7 @@ export default {
 
 .main {
   .card {
+    cursor: pointer;
     &:hover {
       box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.15);
     }
