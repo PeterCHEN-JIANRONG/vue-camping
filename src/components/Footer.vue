@@ -26,7 +26,7 @@
             class="text-white-50 link__icon"
             ><i class="bi bi-facebook px-3"></i
           ></a>
-          <router-link to="/" class="text-white-50 link__icon"
+          <router-link to="/admin/products" class="text-white-50 link__icon"
             ><i class="bi bi-instagram px-3"></i
           ></router-link>
         </div>

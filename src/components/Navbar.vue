@@ -27,6 +27,9 @@
             <router-link class="nav-link px-3" to="/products/all">產品</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link px-3" to="/articles">部落格</router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link px-3" to="/favorite">
               <i class="bi bi-heart-fill"></i>
             </router-link>
@@ -44,12 +47,6 @@
                 </span>
               </div>
             </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link px-3" to="/articles">部落格</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link px-3" to="/admin/products">後台</router-link>
           </li>
         </ul>
       </div>
