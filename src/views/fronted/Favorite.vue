@@ -222,7 +222,7 @@ export default {
 
 .random__products {
   &:hover {
-    box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
+    box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.15);
   }
   .card-title {
     max-width: 100%;
@@ -243,7 +243,7 @@ export default {
     height: auto;
   }
   &:hover {
-    box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
+    box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.15);
   }
 }
 

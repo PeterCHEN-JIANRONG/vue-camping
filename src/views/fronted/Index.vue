@@ -1,5 +1,5 @@
 <template>
-  <div class="header position-relative mb-4">
+  <div class="header position-relative mb-5">
     <div class="header__content position-absolute top-50 start-50 translate-middle text-center">
       <h1 class="text-white ff-Otomanopee">CAMPING</h1>
       <p class="text-white h4 mb-3">
@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <div class="container py-3 mb-4">
+  <div class="container mb-5">
     <section id="main" class="main">
       <h2 class="text-center mb-4">
         <span class="border-start border-end  border-2 border-secondary px-2">經典系列</span>
@@ -24,7 +24,7 @@
       <div class="row justify-content-center">
         <div class="col-md-10 col-lg-9">
           <div class="row">
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4">
               <div class="card" @click="$router.push('/products/帳篷')">
                 <div
                   class="card__background"
@@ -37,7 +37,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4">
               <div class="card" @click="$router.push('/products/背包')">
                 <div
                   class="card__background"
@@ -50,7 +50,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4">
               <div class="card" @click="$router.push('/products/帳篷配件')">
                 <div
                   class="card__background"
@@ -69,13 +69,13 @@
     </section>
   </div>
 
-  <section class="on-sell bg-light py-3 mb-4">
+  <section class="on-sell bg-light pt-4 pb-5">
     <h2 class="text-center mb-4">
       <span class="border-start border-end  border-2 border-secondary px-2">暢銷商品</span>
     </h2>
     <div class="container">
       <div class="row">
-        <div v-for="item in onSellProducts" :key="item.id" class="col-md-4 mb-3">
+        <div v-for="item in onSellProducts" :key="item.id" class="col-md-4">
           <div class="card" @click="$router.push(`/product/${item.id}`)">
             <div
               class="card__img position-relative border-bottom border-1 border-muted"
@@ -121,7 +121,7 @@
     </div>
   </section>
 
-  <div class="container py-3 mb-4">
+  <div class="container pt-4 mb-5">
     <section class="article">
       <h2 class="text-center mb-4">
         <span class="border-start border-end  border-2 border-secondary px-2">最新文章</span>
@@ -279,7 +279,7 @@ export default {
 .main {
   .card {
     &:hover {
-      box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
+      box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.15);
     }
     &__background {
       width: 100%;
@@ -306,7 +306,7 @@ export default {
 .on-sell {
   .card {
     &:hover {
-      box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
+      box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.15);
     }
     .card-title {
       max-width: 100%;
@@ -315,7 +315,7 @@ export default {
     .card__img {
       width: 100%;
       height: 250px;
-      background-size: contain;
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
       &:hover {
@@ -328,7 +328,7 @@ export default {
 .article {
   .card {
     &:hover {
-      box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.075);
+      box-shadow: 0 0.125rem 0.25rem rgba(#000, 0.15);
     }
     .card__img {
       width: 100%;
