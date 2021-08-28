@@ -1,3 +1,4 @@
 module.exports = {
-  publicPath: '/vue-camping/dist'
+  publicPath: '/dist',
+  // publicPath: '/vue-camping/dist',
 }
